@@ -13,9 +13,13 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix --cache",
-    "format": "prettier --write --experimental-cli src/"
+    "format": "prettier --write --experimental-cli src/",
+    "codegen": "openapi-ts",
+    "codegen:watch": "openapi-ts --watch"
   },
   "dependencies": {
+    "@tanstack/vue-query": "^5.92.1",
+    "axios": "^1.13.2",
     "pinia": "^3.0.4",
     "vite-plugin-vuetify": "^2.1.2",
     "vue": "^3.5.25",
@@ -23,6 +27,7 @@
     "vuetify": "^3.11.2"
   },
   "devDependencies": {
+    "@hey-api/openapi-ts": "^0.88.1",
     "@mdi/font": "^7.4.47",
     "@tsconfig/node24": "^24.0.3",
     "@types/node": "^24.10.1",

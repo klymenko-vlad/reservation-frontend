@@ -1,10 +1,13 @@
 <script lang="ts">
 import type { PropType } from 'vue';
 
+type ValidationRule = (value: string) => boolean | string;
+
 interface AuthField {
   label: string;
   model: string;
   type: string;
+  rules?: ValidationRule[];
 }
 
 export default {
@@ -31,6 +34,14 @@ export default {
       type: Function as PropType<(form: Record<string, string>) => void>,
       required: true,
     },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+    error: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     const form: Record<string, string> = {};
@@ -39,11 +50,17 @@ export default {
     });
     return {
       form,
+      isFormValid: false,
     };
   },
   methods: {
-    handleSubmit() {
-      this.onSubmit(this.form);
+    async handleSubmit() {
+      const formRef = this.$refs.formRef as { validate: () => Promise<{ valid: boolean }> };
+      const { valid } = await formRef.validate();
+
+      if (valid) {
+        this.onSubmit(this.form);
+      }
     },
   },
 };
@@ -53,16 +70,22 @@ export default {
   <v-card class="mx-auto my-12" max-width="400">
     <v-card-title class="text-h5 text-center">{{ buttonText }}</v-card-title>
     <v-card-text>
-      <v-form @submit.prevent="handleSubmit">
+      <v-form ref="formRef" v-model="isFormValid" @submit.prevent="handleSubmit">
         <div v-for="field in fields" :key="field.model" class="mb-4">
           <v-text-field
             v-model="form[field.model]"
             :label="field.label"
             :type="field.type"
-            required
+            :disabled="loading"
+            :rules="field.rules || []"
           />
         </div>
-        <v-btn type="submit" color="primary" block>{{ buttonText }}</v-btn>
+        <v-alert v-if="error" type="error" class="mb-4" density="compact">
+          {{ error }}
+        </v-alert>
+        <v-btn type="submit" color="primary" block :loading="loading" :disabled="loading">
+          {{ buttonText }}
+        </v-btn>
       </v-form>
       <div class="mt-4 text-center">
         <router-link :to="linkTo">{{ linkText }}</router-link>
