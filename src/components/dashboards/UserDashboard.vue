@@ -10,7 +10,6 @@
     <ReservationForm
       :open="reservationFormOpen"
       :reservation="reservationFormEdit"
-      :reservation-statuses="reservationStatuses"
       @update:open="reservationFormOpen = $event"
       @submit="handleReservationFormSubmit"
     />
@@ -33,10 +32,6 @@ export default defineComponent({
   props: {
     reservations: {
       type: Array as () => Reservation[],
-      required: true,
-    },
-    reservationStatuses: {
-      type: Array as () => string[],
       required: true,
     },
   },
@@ -69,7 +64,6 @@ export default defineComponent({
           await updateReservationById(this.reservationFormEdit.id, {
             startDate: new Date(formData.startDate).toISOString(),
             endDate: new Date(formData.endDate).toISOString(),
-            status: formData.status,
           })
         }
         this.reservationFormOpen = false

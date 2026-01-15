@@ -4,7 +4,7 @@ import { mapState } from 'pinia'
 import { useUserStore } from '@/stores/user'
 import { getAllProperties, getAllReservations } from '@/api/queries'
 import type { Property, Reservation } from '@/types'
-import { PROPERTY_CATEGORIES, RESERVATION_STATUSES } from '@/constants/enums'
+import { PROPERTY_CATEGORIES } from '@/constants/enums'
 import HostDashboard from '@/components/dashboards/HostDashboard.vue'
 import UserDashboard from '@/components/dashboards/UserDashboard.vue'
 
@@ -28,9 +28,6 @@ export default defineComponent({
     },
     propertyCategories() {
       return [...PROPERTY_CATEGORIES]
-    },
-    reservationStatuses() {
-      return [...RESERVATION_STATUSES]
     },
   },
   methods: {
@@ -65,11 +62,6 @@ export default defineComponent({
       :property-categories="propertyCategories"
       @property-updated="fetchData"
     />
-    <UserDashboard
-      v-else
-      :reservations="reservations"
-      :reservation-statuses="reservationStatuses"
-      @reservation-updated="fetchData"
-    />
+    <UserDashboard v-else :reservations="reservations" @reservation-updated="fetchData" />
   </main>
 </template>

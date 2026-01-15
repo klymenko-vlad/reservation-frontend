@@ -18,8 +18,8 @@ export default defineComponent({
     isSignedIn(): boolean {
       return !!this.id
     },
-    isUserRole(): boolean {
-      return this.role === 'USER'
+    isUserHost(): boolean {
+      return this.role === 'HOST'
     },
   },
   methods: {
@@ -101,7 +101,7 @@ export default defineComponent({
       <v-btn
         :to="ROUTES.HOTELS"
         variant="text"
-        v-if="isUserRole"
+        v-if="!isUserHost"
         class="d-none d-md-flex ml-4"
         style="text-transform: none"
       >

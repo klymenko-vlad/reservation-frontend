@@ -21,14 +21,14 @@ const router = createRouter({
       path: '/hotels',
       name: 'hotels',
       component: () => import('../views/HotelsView.vue'),
-      meta: { requiresUserRole: true, title: 'Hotels' },
+      meta: { requiresNotHost: true, title: 'Hotels' },
     },
     {
       path: '/hotels/:id',
       name: 'hotel-detail',
       component: () => import('../views/HotelDetailView.vue'),
       props: true,
-      meta: { requiresUserRole: true, title: 'Hotel details' },
+      meta: { requiresNotHost: true, title: 'Hotel details' },
     },
     {
       path: '/login',
@@ -61,7 +61,7 @@ router.beforeEach((to, from, next) => {
     })
   }
 
-  if (to.meta.requiresUserRole && userStore.role !== 'USER') {
+  if (to.meta.requiresNotHost && userStore.role === 'HOST') {
     next({ name: 'home' })
   }
 

@@ -21,13 +21,6 @@
               formRules.endDateAfterStart(form.startDate),
             ]"
           />
-          <v-select
-            v-model="form.status"
-            :items="reservationStatuses"
-            label="Status"
-            required
-            :rules="[formRules.required('Status')]"
-          />
         </v-form>
       </v-card-text>
       <v-card-actions>
@@ -54,10 +47,6 @@ export default defineComponent({
       type: Object as () => Reservation | null,
       default: null,
     },
-    reservationStatuses: {
-      type: Array as () => string[],
-      required: true,
-    },
   },
   emits: ['update:open', 'submit'],
   data() {
@@ -66,7 +55,6 @@ export default defineComponent({
       form: {
         startDate: '',
         endDate: '',
-        status: null as 'PENDING' | 'CONFIRMED' | 'CANCELED' | 'COMPLETED' | null,
       },
       formRules,
     }
@@ -98,7 +86,6 @@ export default defineComponent({
       this.form = {
         startDate: reservation.startDate,
         endDate: reservation.endDate,
-        status: reservation.status,
       }
     },
     handleSubmit() {
@@ -111,7 +98,6 @@ export default defineComponent({
       this.form = {
         startDate: '',
         endDate: '',
-        status: null,
       }
       this.formValid = false
     },
