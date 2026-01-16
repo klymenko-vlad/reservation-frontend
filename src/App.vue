@@ -1,8 +1,8 @@
 <script lang="ts">
-import {RouterView} from 'vue-router'
+import { RouterView } from 'vue-router'
 import AppHeader from './components/layout/AppHeader.vue'
-import AppFooter from "@/components/layout/AppFooter.vue";
-import { mapState, mapActions } from 'pinia'
+import AppFooter from '@/components/layout/AppFooter.vue'
+import { mapActions, mapState } from 'pinia'
 import { useToastStore } from '@/stores/toast'
 
 export default {
@@ -14,15 +14,6 @@ export default {
   },
   computed: {
     ...mapState(useToastStore, ['show', 'message', 'type', 'timeout']),
-    snackbarColor(): string {
-      const colors: Record<string, string> = {
-        success: 'success',
-        error: 'error',
-        warning: 'warning',
-        info: 'info',
-      }
-      return colors[this.type] || 'info'
-    },
   },
   methods: {
     ...mapActions(useToastStore, ['hide']),
@@ -37,15 +28,15 @@ export default {
 
 <template>
   <v-app>
-    <AppHeader/>
+    <AppHeader />
     <v-main>
-      <RouterView/>
+      <RouterView />
     </v-main>
-    <AppFooter/>
+    <AppFooter />
     <v-snackbar
       :model-value="show"
       :timeout="timeout"
-      :color="snackbarColor"
+      :color="type"
       location="top"
       @update:model-value="onSnackbarUpdate"
     >
