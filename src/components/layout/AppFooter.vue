@@ -1,6 +1,6 @@
 <script lang="ts">
 export default {
-  name: 'AppHeader',
+  name: 'AppFooter',
 }
 </script>
 
@@ -17,6 +17,3 @@ export default {
     </v-col>
   </v-footer>
 </template>
-
-<style scoped>
-</style>

@@ -1,22 +1,23 @@
 <script lang="ts">
-import type { PropType } from 'vue';
+import { defineComponent } from 'vue'
+import type { PropType } from 'vue'
 
-type ValidationRule = (value: string) => boolean | string;
+type ValidationRule = (value: string) => boolean | string
 
 interface AuthField {
-  label: string;
-  model: string;
-  type: string;
-  rules?: ValidationRule[];
+  label: string
+  model: string
+  type: string
+  rules?: ValidationRule[]
+  options?: { title: string; value: string }[]
 }
 
-export default {
+export default defineComponent({
   name: 'AuthForm',
   props: {
     fields: {
       type: Array as PropType<AuthField[]>,
       required: true,
-      default: () => [],
     },
     buttonText: {
       type: String,
@@ -30,10 +31,6 @@ export default {
       type: String,
       required: true,
     },
-    onSubmit: {
-      type: Function as PropType<(form: Record<string, string>) => void>,
-      required: true,
-    },
     loading: {
       type: Boolean,
       default: false,
@@ -43,27 +40,53 @@ export default {
       default: '',
     },
   },
+  emits: ['submit', 'update:form'],
   data() {
-    const form: Record<string, string> = {};
-    (this.fields as AuthField[]).forEach((field) => {
-      form[field.model] = '';
-    });
+    const form: Record<string, string> = {}
+    this.fields.forEach((field) => {
+      form[field.model] = field.type === 'select' && field.options?.[0]
+        ? field.options[0].value
+        : ''
+    })
     return {
       form,
       isFormValid: false,
-    };
+    }
   },
   methods: {
+    initializeForm(): Record<string, string> {
+      const form: Record<string, string> = {}
+      this.fields.forEach((field) => {
+        form[field.model] = field.type === 'select' && field.options?.[0]
+          ? field.options[0].value
+          : ''
+      })
+      return form
+    },
     async handleSubmit() {
-      const formRef = this.$refs.formRef as { validate: () => Promise<{ valid: boolean }> };
-      const { valid } = await formRef.validate();
+      const formRef = this.$refs.formRef as { validate: () => Promise<{ valid: boolean }> }
+      const { valid } = await formRef.validate()
 
       if (valid) {
-        this.onSubmit(this.form);
+        this.$emit('submit', this.form)
       }
     },
   },
-};
+  watch: {
+    fields: {
+      handler() {
+        this.form = this.initializeForm()
+      },
+      deep: true,
+    },
+    form: {
+      handler(newForm) {
+        this.$emit('update:form', newForm)
+      },
+      deep: true,
+    },
+  },
+})
 </script>
 
 <template>
@@ -72,13 +95,24 @@ export default {
     <v-card-text>
       <v-form ref="formRef" v-model="isFormValid" @submit.prevent="handleSubmit">
         <div v-for="field in fields" :key="field.model" class="mb-4">
-          <v-text-field
-            v-model="form[field.model]"
-            :label="field.label"
-            :type="field.type"
-            :disabled="loading"
-            :rules="field.rules || []"
-          />
+          <template v-if="field.type === 'select' && field.options">
+            <v-select
+              v-model="form[field.model]"
+              :label="field.label"
+              :items="field.options"
+              :disabled="loading"
+              :rules="field.rules || []"
+            />
+          </template>
+          <template v-else>
+            <v-text-field
+              v-model="form[field.model]"
+              :label="field.label"
+              :type="field.type"
+              :disabled="loading"
+              :rules="field.rules || []"
+            />
+          </template>
         </div>
         <v-alert v-if="error" type="error" class="mb-4" density="compact">
           {{ error }}
@@ -93,6 +127,3 @@ export default {
     </v-card-text>
   </v-card>
 </template>
-
-<style scoped>
-</style>

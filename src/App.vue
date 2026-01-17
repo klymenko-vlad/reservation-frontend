@@ -56,6 +56,3 @@ export default {
     </v-snackbar>
   </v-app>
 </template>
-
-<style scoped>
-</style>

@@ -3,8 +3,8 @@
 import { type DefaultError, queryOptions, type UseMutationOptions } from '@tanstack/vue-query';
 
 import { client } from '../client.gen';
-import { authControllerLogin, type Options, propertiesControllerCreateProperty, propertiesControllerDeletePropertyById, propertiesControllerGetAllProperties, propertiesControllerGetPropertyById, propertiesControllerUpdatePropertyById, reservationsControllerCreateReservation, reservationsControllerGetAllReservations, reservationsControllerGetReservationById, usersControllerCreate, usersControllerGetMe } from '../sdk.gen';
-import type { AuthControllerLoginData, PropertiesControllerCreatePropertyData, PropertiesControllerDeletePropertyByIdData, PropertiesControllerGetAllPropertiesData, PropertiesControllerGetPropertyByIdData, PropertiesControllerUpdatePropertyByIdData, ReservationsControllerCreateReservationData, ReservationsControllerGetAllReservationsData, ReservationsControllerGetReservationByIdData, UsersControllerCreateData, UsersControllerGetMeData } from '../types.gen';
+import { authControllerLogin, authControllerLogout, type Options, propertiesControllerCreateProperty, propertiesControllerDeletePropertyById, propertiesControllerGetAllProperties, propertiesControllerGetPropertyById, propertiesControllerUpdatePropertyById, reservationsControllerCreateReservation, reservationsControllerDeleteReservation, reservationsControllerGetAllReservations, reservationsControllerGetReservationById, reservationsControllerUpdateReservation, usersControllerCreate, usersControllerGetMe } from '../sdk.gen';
+import type { AuthControllerLoginData, AuthControllerLogoutData, PropertiesControllerCreatePropertyData, PropertiesControllerDeletePropertyByIdData, PropertiesControllerGetAllPropertiesData, PropertiesControllerGetPropertyByIdData, PropertiesControllerUpdatePropertyByIdData, ReservationsControllerCreateReservationData, ReservationsControllerDeleteReservationData, ReservationsControllerGetAllReservationsData, ReservationsControllerGetReservationByIdData, ReservationsControllerUpdateReservationData, UsersControllerCreateData, UsersControllerGetMeData } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
     Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
@@ -82,6 +82,20 @@ export const authControllerLoginMutation = (options?: Partial<Options<AuthContro
     return mutationOptions;
 };
 
+export const authControllerLogoutMutation = (options?: Partial<Options<AuthControllerLogoutData>>): UseMutationOptions<unknown, DefaultError, Options<AuthControllerLogoutData>> => {
+    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<AuthControllerLogoutData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await authControllerLogout({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
 export const reservationsControllerGetAllReservationsQueryKey = (options?: Options<ReservationsControllerGetAllReservationsData>) => createQueryKey('reservationsControllerGetAllReservations', options);
 
 export const reservationsControllerGetAllReservationsOptions = (options?: Options<ReservationsControllerGetAllReservationsData>) => queryOptions<unknown, DefaultError, unknown, ReturnType<typeof reservationsControllerGetAllReservationsQueryKey>>({
@@ -111,6 +125,20 @@ export const reservationsControllerCreateReservationMutation = (options?: Partia
     return mutationOptions;
 };
 
+export const reservationsControllerDeleteReservationMutation = (options?: Partial<Options<ReservationsControllerDeleteReservationData>>): UseMutationOptions<unknown, DefaultError, Options<ReservationsControllerDeleteReservationData>> => {
+    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<ReservationsControllerDeleteReservationData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await reservationsControllerDeleteReservation({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
+
 export const reservationsControllerGetReservationByIdQueryKey = (options: Options<ReservationsControllerGetReservationByIdData>) => createQueryKey('reservationsControllerGetReservationById', options);
 
 export const reservationsControllerGetReservationByIdOptions = (options: Options<ReservationsControllerGetReservationByIdData>) => queryOptions<unknown, DefaultError, unknown, ReturnType<typeof reservationsControllerGetReservationByIdQueryKey>>({
@@ -125,6 +153,20 @@ export const reservationsControllerGetReservationByIdOptions = (options: Options
     },
     queryKey: reservationsControllerGetReservationByIdQueryKey(options)
 });
+
+export const reservationsControllerUpdateReservationMutation = (options?: Partial<Options<ReservationsControllerUpdateReservationData>>): UseMutationOptions<unknown, DefaultError, Options<ReservationsControllerUpdateReservationData>> => {
+    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<ReservationsControllerUpdateReservationData>> = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await reservationsControllerUpdateReservation({
+                ...options,
+                ...fnOptions,
+                throwOnError: true
+            });
+            return data;
+        }
+    };
+    return mutationOptions;
+};
 
 export const propertiesControllerGetAllPropertiesQueryKey = (options?: Options<PropertiesControllerGetAllPropertiesData>) => createQueryKey('propertiesControllerGetAllProperties', options);
 

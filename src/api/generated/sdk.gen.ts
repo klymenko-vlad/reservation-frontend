@@ -2,7 +2,7 @@
 
 import type { Client, Options as Options2, TDataShape } from './client';
 import { client } from './client.gen';
-import type { AuthControllerLoginData, AuthControllerLoginResponses, PropertiesControllerCreatePropertyData, PropertiesControllerCreatePropertyResponses, PropertiesControllerDeletePropertyByIdData, PropertiesControllerDeletePropertyByIdResponses, PropertiesControllerGetAllPropertiesData, PropertiesControllerGetAllPropertiesResponses, PropertiesControllerGetPropertyByIdData, PropertiesControllerGetPropertyByIdResponses, PropertiesControllerUpdatePropertyByIdData, PropertiesControllerUpdatePropertyByIdResponses, ReservationsControllerCreateReservationData, ReservationsControllerCreateReservationResponses, ReservationsControllerGetAllReservationsData, ReservationsControllerGetAllReservationsResponses, ReservationsControllerGetReservationByIdData, ReservationsControllerGetReservationByIdResponses, UsersControllerCreateData, UsersControllerCreateResponses, UsersControllerGetMeData, UsersControllerGetMeResponses } from './types.gen';
+import type { AuthControllerLoginData, AuthControllerLoginResponses, AuthControllerLogoutData, AuthControllerLogoutResponses, PropertiesControllerCreatePropertyData, PropertiesControllerCreatePropertyResponses, PropertiesControllerDeletePropertyByIdData, PropertiesControllerDeletePropertyByIdResponses, PropertiesControllerGetAllPropertiesData, PropertiesControllerGetAllPropertiesResponses, PropertiesControllerGetPropertyByIdData, PropertiesControllerGetPropertyByIdResponses, PropertiesControllerUpdatePropertyByIdData, PropertiesControllerUpdatePropertyByIdResponses, ReservationsControllerCreateReservationData, ReservationsControllerCreateReservationResponses, ReservationsControllerDeleteReservationData, ReservationsControllerDeleteReservationResponses, ReservationsControllerGetAllReservationsData, ReservationsControllerGetAllReservationsResponses, ReservationsControllerGetReservationByIdData, ReservationsControllerGetReservationByIdResponses, ReservationsControllerUpdateReservationData, ReservationsControllerUpdateReservationResponses, UsersControllerCreateData, UsersControllerCreateResponses, UsersControllerGetMeData, UsersControllerGetMeResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean> = Options2<TData, ThrowOnError> & {
     /**
@@ -38,6 +38,8 @@ export const authControllerLogin = <ThrowOnError extends boolean = false>(option
     }
 });
 
+export const authControllerLogout = <ThrowOnError extends boolean = false>(options?: Options<AuthControllerLogoutData, ThrowOnError>) => (options?.client ?? client).post<AuthControllerLogoutResponses, unknown, ThrowOnError>({ url: '/api/auth/logout', ...options });
+
 export const reservationsControllerGetAllReservations = <ThrowOnError extends boolean = false>(options?: Options<ReservationsControllerGetAllReservationsData, ThrowOnError>) => (options?.client ?? client).get<ReservationsControllerGetAllReservationsResponses, unknown, ThrowOnError>({ url: '/api/reservations', ...options });
 
 export const reservationsControllerCreateReservation = <ThrowOnError extends boolean = false>(options: Options<ReservationsControllerCreateReservationData, ThrowOnError>) => (options.client ?? client).post<ReservationsControllerCreateReservationResponses, unknown, ThrowOnError>({
@@ -49,7 +51,11 @@ export const reservationsControllerCreateReservation = <ThrowOnError extends boo
     }
 });
 
+export const reservationsControllerDeleteReservation = <ThrowOnError extends boolean = false>(options: Options<ReservationsControllerDeleteReservationData, ThrowOnError>) => (options.client ?? client).delete<ReservationsControllerDeleteReservationResponses, unknown, ThrowOnError>({ url: '/api/reservations/{id}', ...options });
+
 export const reservationsControllerGetReservationById = <ThrowOnError extends boolean = false>(options: Options<ReservationsControllerGetReservationByIdData, ThrowOnError>) => (options.client ?? client).get<ReservationsControllerGetReservationByIdResponses, unknown, ThrowOnError>({ url: '/api/reservations/{id}', ...options });
+
+export const reservationsControllerUpdateReservation = <ThrowOnError extends boolean = false>(options: Options<ReservationsControllerUpdateReservationData, ThrowOnError>) => (options.client ?? client).patch<ReservationsControllerUpdateReservationResponses, unknown, ThrowOnError>({ url: '/api/reservations/{id}', ...options });
 
 export const propertiesControllerGetAllProperties = <ThrowOnError extends boolean = false>(options?: Options<PropertiesControllerGetAllPropertiesData, ThrowOnError>) => (options?.client ?? client).get<PropertiesControllerGetAllPropertiesResponses, unknown, ThrowOnError>({ url: '/api/properties', ...options });
 

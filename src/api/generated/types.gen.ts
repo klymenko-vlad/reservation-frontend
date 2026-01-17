@@ -67,6 +67,17 @@ export type AuthControllerLoginResponses = {
     201: unknown;
 };
 
+export type AuthControllerLogoutData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/auth/logout';
+};
+
+export type AuthControllerLogoutResponses = {
+    201: unknown;
+};
+
 export type ReservationsControllerGetAllReservationsData = {
     body?: never;
     path?: never;
@@ -89,6 +100,19 @@ export type ReservationsControllerCreateReservationResponses = {
     201: unknown;
 };
 
+export type ReservationsControllerDeleteReservationData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/reservations/{id}';
+};
+
+export type ReservationsControllerDeleteReservationResponses = {
+    200: unknown;
+};
+
 export type ReservationsControllerGetReservationByIdData = {
     body?: never;
     path: {
@@ -99,6 +123,19 @@ export type ReservationsControllerGetReservationByIdData = {
 };
 
 export type ReservationsControllerGetReservationByIdResponses = {
+    200: unknown;
+};
+
+export type ReservationsControllerUpdateReservationData = {
+    body?: never;
+    path: {
+        id: string;
+    };
+    query?: never;
+    url: '/api/reservations/{id}';
+};
+
+export type ReservationsControllerUpdateReservationResponses = {
     200: unknown;
 };
 
