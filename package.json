@@ -15,7 +15,8 @@
     "lint": "eslint . --fix --cache",
     "format": "prettier --write --experimental-cli src/",
     "codegen": "openapi-ts",
-    "codegen:watch": "openapi-ts --watch"
+    "codegen:watch": "openapi-ts --watch",
+    "deploy": "npm run build && gh-pages -d dist"
   },
   "dependencies": {
     "@tanstack/vue-query": "^5.92.1",
